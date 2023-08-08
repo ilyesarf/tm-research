@@ -12,9 +12,9 @@ class Machine:
 
     def eval_state(self, state, ind):
         if ind > len(self.tape)-1:
-            self.tape = np.append(self.tape, 0)
+            self.tape = np.append(self.tape, self.blank)
         elif ind == -1:
-            self.tape = np.insert(self.tape, 0, 0)
+            self.tape = np.insert(self.tape, 0, self.blank)
             ind = 0
         elif ind < -1:
             print(ind)
