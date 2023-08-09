@@ -40,18 +40,13 @@ class State:
 
 if __name__ == '__main__':
     from parse import Parser
-    parser = Parser('bb.tm')
+    parser = Parser('bb.yml')
     
-    alphabet = [0, 1]
-    blank = 0
-    states = parser.parse_states()
-    init_q = 'A'
-    halt = 'H'
     tape = np.array([0])
 
-    machine = Machine(alphabet, blank, states, init_q, halt, tape)
+    machine = Machine(parser.alphabet, parser.blank, parser.states, parser.init_q, parser.halt, tape)
 
-    state, ind = init_q, 0
+    state, ind = parser.init_q, 0
     i = 0
     while True:
         print("state: ", state)
