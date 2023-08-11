@@ -1,6 +1,3 @@
-
-import numpy as np
-
 class Machine:
     def __init__(self, alphabet, blank, states, init_q, halt, tape):
         self.alphabet = alphabet
@@ -12,9 +9,9 @@ class Machine:
 
     def eval_state(self, state, ind):
         if ind > len(self.tape)-1:
-            self.tape = np.append(self.tape, self.blank)
+            self.tape.append(self.blank)
         elif ind == -1:
-            self.tape = np.insert(self.tape, 0, self.blank)
+            self.tape.insert(0, self.blank)
             ind = 0
         elif ind < -1:
             print(ind)
@@ -40,24 +37,32 @@ class State:
 
 if __name__ == '__main__':
     from parse import Parser
+    import time
+
+    st = time.monotonic()
     parser = Parser('bb.yml')
     
-    tape = np.array([0])
+    tape = [0]
 
     machine = Machine(parser.alphabet, parser.blank, parser.states, parser.init_q, parser.halt, tape)
 
     state, ind = parser.init_q, 0
+    halt = False
     i = 0
-    while True:
+    while halt != True:
         print("state: ", state)
         print("head position: ", ind)
         print("current tape: ", machine.tape)
         print()
-        #print(i)
+
         if state != 'H':
             state,ind = machine.eval_state(state, ind)
             i += 1
         else:
-            print("total steps: ", i)
-            print("sum: ", np.sum(machine.tape))
-            exit(0)
+            halt = True
+
+    et = time.monotonic()
+    print("time: %fs" % (et-st))
+    print("total steps: ", i)
+    print("sum: ", sum(machine.tape))
+    
