@@ -15,15 +15,15 @@ struct State{
     char next_q; //next state letter
 };
 
-/*struct Head{
+struct Head{
     struct Cell *cell; //current position
     struct State *state; //current state
-};*/
+};
 
 struct Machine{
-    char alphabet[m]; //alphabet array (i.e [0,1])
+    int alphabet[m]; //alphabet array (i.e [0,1])
     int blank; //blank symbol (i.e 0)
-    struct State *states[n]; //array of State
+    struct State states[n*m]; //array of State
     char init_q; //init State letter (i.e 'A')
     char halt; //halt State letter (i.e 'H')
     //struct Head *head;
