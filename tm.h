@@ -16,8 +16,8 @@ struct State{
 };
 
 struct Head{
-    struct Cell *cell; //current position
-    struct State *state; //current state
+    struct Cell* cell; //current position
+    struct State state; //current state
 };
 
 struct Machine{
@@ -27,5 +27,5 @@ struct Machine{
     char init_q; //init State letter (i.e 'A')
     char halt; //halt State letter (i.e 'H')
     //struct Head *head;
-    struct Cell *cell; //initial empty tape (i.e Cell->val = 0)
+    struct Cell* cell; //initial empty tape (i.e Cell->val = 0)
 };

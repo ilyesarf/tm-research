@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+//#define DEBUG 1
+
 #define ALPHABET {0,1}
 #define BLANK 0
 #define INIT_Q 'A'
-#define HALT 'H'
+#define HALT_Q 'H'
 
 struct Cell* createCell(int val){
     struct Cell* cell = (struct Cell*)malloc(sizeof(struct Cell));
@@ -15,8 +17,8 @@ struct Cell* createCell(int val){
     }
 
     cell->val = val;
-    cell->left = NULL;
-    cell->right = NULL;
+    cell->left = (struct Cell *) NULL;
+    cell->right = (struct Cell *) NULL;
 
     return cell;
 }
@@ -36,21 +38,89 @@ void insertEnd(struct Cell** headCell, struct Cell** cell){
     (*cell)->left = current;
 }
 
+void parseState(struct State* state, const char* unparsedState){
+    sscanf(unparsedState, "%c %d %d %d %c", &(state->q), &(state->symb1), &(state->symb2), &(state->move), &(state->next_q));
+}
 
-void evalState(struct Head* tapeHead, int blank){
-    struct Cell* cell = tapeHead->cell;
-    struct State* state = tapeHead->state;
-    if (&cell->left == NULL){
+struct State retrieveState(struct State states[], char q, int symb1){
+    int i=0;
+    while (i < n*m){
+        struct State state = states[i];
+        if (state.q == q && state.symb1 == symb1){
+            return state;
+        }
+        ++i;
+    } 
+    
+    printf("state: %c with input symbol: %d not found\n", q, symb1);
+    exit(1);
+}
+
+void evalState(struct Machine* machine, struct Head* tapeHead, int blank){
+    struct Cell* cell = (*tapeHead).cell;
+    struct State state = (*tapeHead).state;
+
+    #ifdef DEBUG
+        printf("Parsed values for state: q=%c, symb1=%d, symb2=%d, move=%d, next_q=%c\n",
+            state.q, state.symb1, state.symb2, state.move, state.next_q);
+    #endif
+
+    if (state.move == -1 && cell->left == NULL){
+        #ifdef DEBUG
+            printf("cell->left is NULL\n");
+        #endif
+
         struct Cell* blankCell = createCell(blank);
         insertStart(&cell, &blankCell);
-    } else if (&cell->right == NULL){
+
+        machine->cell = blankCell; 
+    } else if (state.move == 1 && cell->right == NULL){
+        #ifdef DEBUG
+            printf("cell->right is NULL\n");
+        #endif
+
         struct Cell* blankCell = createCell(blank);
         insertEnd(&cell, &blankCell);
     }
+
+    #ifdef DEBUG
+        printf("cell->val (before) = %d\n", cell->val);
+    #endif
+
+    cell->val = state.symb2;
+    
+    #ifdef DEBUG
+        printf("cell->val (after) = %d\n", cell->val);
+    #endif
+
+    if (state.move == -1){
+        (*tapeHead).cell = cell->left;
+        #ifdef DEBUG
+            printf("moved left\n");
+        #endif
+    } else if (state.move == 1){
+        (*tapeHead).cell = cell->right;
+        #ifdef DEBUG
+            printf("moved right\n");
+        #endif
+    }
+
+    if (state.next_q != 'H'){
+        (*tapeHead).state = retrieveState(machine->states, state.next_q, (*tapeHead).cell->val);
+    } else{
+        (*tapeHead).state.q = 'H';
+    }
 }
 
-void parseState(struct State* state, const char* unparsedState){
-    sscanf(unparsedState, "%c %d %d %d %c", &(state->q), &(state->symb1), &(state->symb2), &(state->move), &(state->next_q));
+
+void printTape(int i, struct Cell* headCell) {
+    struct Cell* current = headCell;
+    printf("tape %d: ", i+1);
+    while (current != NULL) {
+        printf("%d, ", current->val);
+        current = current->right;
+    }
+    printf("NULL\n\n");
 }
 
 int main(){
@@ -77,10 +147,20 @@ int main(){
     } 
 
     machine.init_q = INIT_Q;
-    machine.halt = HALT;
+    machine.halt = HALT_Q;
     
-    struct Cell* initCell;
-    initCell = createCell(machine.blank);
-    
+    machine.cell = createCell(machine.blank);
+
+    struct Head tapeHead;
+    tapeHead.cell = machine.cell;
+    tapeHead.state = retrieveState(machine.states, machine.init_q, machine.cell->val); 
+
+    int i = 0;
+    while (tapeHead.state.q != machine.halt){
+        evalState(&machine, &tapeHead, machine.blank);
+        printTape(i, machine.cell);
+        ++i;
+    }
+
     return 0;
 }
