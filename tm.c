@@ -61,7 +61,7 @@ void evalState(struct Machine* machine, struct Head* tapeHead, int blank){
     struct State state = (*tapeHead).state;
 
     #ifdef DEBUG
-        printf("Parsed values for state: q=%c, symb1=%d, symb2=%d, move=%d, next_q=%c\n",
+        printf("state: q=%c, symb1=%d, symb2=%d, move=%d, next_q=%c\n",
             state.q, state.symb1, state.symb2, state.move, state.next_q);
     #endif
 
@@ -112,6 +112,17 @@ void evalState(struct Machine* machine, struct Head* tapeHead, int blank){
     }
 }
 
+int sumTape(struct Cell** headCell){
+    int sum = 0;
+    struct Cell* current = *headCell;
+
+    while (current != NULL){
+        sum += current->val;
+        current = current->right;
+    }
+
+    return sum;
+}
 
 void printTape(int i, struct Cell* headCell) {
     struct Cell* current = headCell;
@@ -162,5 +173,9 @@ int main(){
         ++i;
     }
 
+    int sum = sumTape(&machine.cell);
+
+    printf("steps: %d\n", i);
+    printf("tape sum: %d\n", sum);
     return 0;
 }
