@@ -30,16 +30,19 @@ struct Machine{
     struct Cell* cell; //initial empty tape (i.e Cell->val = 0)
 };
 
-void insertStart(struct Cell** headCell, struct Cell** cell);
 
-void insertEnd(struct Cell** headCell, struct Cell** cell);
+extern void insertStart(struct Cell** headCell, struct Cell** cell);
 
-void parseState(struct State* state, const char* unparsedState);
+extern void insertEnd(struct Cell** headCell, struct Cell** cell);
 
-struct State retrieveState(struct State states[], char q, int symb1);
+extern void parseState(struct State* state, const char* unparsedState);
 
-void evalState(struct Machine* machine, struct Head* tapeHead, int blank);
+extern struct State retrieveState(struct State states[], char q, int symb1);
 
-int sumTape(struct Cell** headCell);
+extern void evalState(struct Machine* machine, struct Head* tapeHead, int blank);
 
-void printTape(int i, struct Cell* headCell);
+extern int sumTape(struct Cell** headCell);
+
+extern void printTape(int i, struct Cell* headCell);
+
+extern void runTape(const char** unparsedStates);

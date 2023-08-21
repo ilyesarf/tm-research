@@ -12,7 +12,7 @@
 struct Cell* createCell(int val){
     struct Cell* cell = (struct Cell*)malloc(sizeof(struct Cell));
     if (cell == NULL){
-        printf("MEM ALLOC ERROR");
+        printf("MEM ALLOC ERROR\n");
         exit(1);
     }
 
@@ -134,7 +134,7 @@ void printTape(int i, struct Cell* headCell) {
     printf("NULL\n\n");
 }
 
-int main(){
+void runTape(const char** unparsedStates){
     struct Machine machine;
 
     int alphabetArr[m] = ALPHABET;
@@ -144,14 +144,6 @@ int main(){
 
     machine.blank = BLANK;
     
-   const char* unparsedStates[]={
-        "A 0 1 1 B",
-        "A 1 1 -1 C",
-        "B 0 1 -1 A",
-        "B 1 1 1 B",
-        "C 0 1 -1 B",
-        "C 1 1 1 H",
-    };
     for (int i = 0; i < n*m; i++) {
         struct State state = machine.states[i];
         parseState(&machine.states[i], unparsedStates[i]);
@@ -177,5 +169,17 @@ int main(){
 
     printf("steps: %d\n", i);
     printf("tape sum: %d\n", sum);
-    return 0;
 }
+
+/*int main(){
+    const char* unparsedStates[]={
+        "A 0 1 1 B",
+        "A 1 1 -1 C",
+        "B 0 1 -1 A",
+        "B 1 1 1 B",
+        "C 0 1 -1 B",
+        "C 1 1 1 H",
+    };
+
+    runTape(unparsedStates);
+}*/
