@@ -29,3 +29,17 @@ struct Machine{
     //struct Head *head;
     struct Cell* cell; //initial empty tape (i.e Cell->val = 0)
 };
+
+void insertStart(struct Cell** headCell, struct Cell** cell);
+
+void insertEnd(struct Cell** headCell, struct Cell** cell);
+
+void parseState(struct State* state, const char* unparsedState);
+
+struct State retrieveState(struct State states[], char q, int symb1);
+
+void evalState(struct Machine* machine, struct Head* tapeHead, int blank);
+
+int sumTape(struct Cell** headCell);
+
+void printTape(int i, struct Cell* headCell);
