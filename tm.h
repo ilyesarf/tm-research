@@ -1,5 +1,6 @@
-#define n 3
 #define m 2
+#define n 3
+
 
 struct Cell{
     int val; //cell value (must be in Machine->alphabet)
@@ -23,7 +24,7 @@ struct Head{
 struct Machine{
     int alphabet[m]; //alphabet array (i.e [0,1])
     int blank; //blank symbol (i.e 0)
-    struct State states[n*m]; //array of State
+    struct State states[m*n]; //array of State
     char init_q; //init State letter (i.e 'A')
     char halt; //halt State letter (i.e 'H')
     //struct Head *head;
@@ -37,12 +38,12 @@ extern void insertEnd(struct Cell** headCell, struct Cell** cell);
 
 extern void parseState(struct State* state, const char* unparsedState);
 
-extern struct State retrieveState(struct State states[], char q, int symb1);
+extern struct State retrieveState(int l, struct State states[], char q, int symb1);
 
-extern void evalState(struct Machine* machine, struct Head* tapeHead, int blank);
+extern void evalState(int l, struct Machine* machine, struct Head* tapeHead, int blank);
 
 extern int sumTape(struct Cell** headCell);
 
 extern void printTape(int i, struct Cell* headCell);
 
-extern void runTape(const char** unparsedStates);
+extern void runTape(int l, const char** unparsedStates);

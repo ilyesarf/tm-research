@@ -42,21 +42,20 @@ void parseState(struct State* state, const char* unparsedState){
     sscanf(unparsedState, "%c %d %d %d %c", &(state->q), &(state->symb1), &(state->symb2), &(state->move), &(state->next_q));
 }
 
-struct State retrieveState(struct State states[], char q, int symb1){
-    int i=0;
-    while (i < n*m){
-        struct State state = states[i];
+struct State retrieveState(int l, struct State states[], char q, int symb1){
+    struct State state;
+    for (int i =0; i < l; i++){ 
+        state = states[i];
         if (state.q == q && state.symb1 == symb1){
             return state;
         }
-        ++i;
-    } 
-    
-    printf("state: %c with input symbol: %d not found\n", q, symb1);
-    exit(1);
+    }
+
+    state.q = '\0';
+    return state;
 }
 
-void evalState(struct Machine* machine, struct Head* tapeHead, int blank){
+void evalState(int l, struct Machine* machine, struct Head* tapeHead, int blank){
     struct Cell* cell = (*tapeHead).cell;
     struct State state = (*tapeHead).state;
 
@@ -106,7 +105,7 @@ void evalState(struct Machine* machine, struct Head* tapeHead, int blank){
     }
 
     if (state.next_q != 'H'){
-        (*tapeHead).state = retrieveState(machine->states, state.next_q, (*tapeHead).cell->val);
+        (*tapeHead).state = retrieveState(l, machine->states, state.next_q, (*tapeHead).cell->val);
     } else{
         (*tapeHead).state.q = 'H';
     }
@@ -134,7 +133,7 @@ void printTape(int i, struct Cell* headCell) {
     printf("NULL\n\n");
 }
 
-void runTape(const char** unparsedStates){
+void runTape(int l, const char** unparsedStates){
     struct Machine machine;
 
     int alphabetArr[m] = ALPHABET;
@@ -143,8 +142,12 @@ void runTape(const char** unparsedStates){
     }
 
     machine.blank = BLANK;
-    
-    for (int i = 0; i < n*m; i++) {
+
+    for (int i = 0; i < l; i++) {
+        #ifdef DEBUG
+
+            printf("unparsed state at index %d: %s\n", i, unparsedStates[i]);
+        #endif
         struct State state = machine.states[i];
         parseState(&machine.states[i], unparsedStates[i]);
     } 
@@ -156,11 +159,11 @@ void runTape(const char** unparsedStates){
 
     struct Head tapeHead;
     tapeHead.cell = machine.cell;
-    tapeHead.state = retrieveState(machine.states, machine.init_q, machine.cell->val); 
+    tapeHead.state = retrieveState(l, machine.states, machine.init_q, machine.cell->val); 
 
     int i = 0;
-    while (tapeHead.state.q != machine.halt){
-        evalState(&machine, &tapeHead, machine.blank);
+    while (!(tapeHead.state.q == '\0' || tapeHead.state.q == machine.halt)){
+        evalState(l, &machine, &tapeHead, machine.blank);
         printTape(i, machine.cell);
         ++i;
     }
