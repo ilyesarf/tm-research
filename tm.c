@@ -145,7 +145,6 @@ void runTape(int l, const char** unparsedStates){
 
     for (int i = 0; i < l; i++) {
         #ifdef DEBUG
-
             printf("unparsed state at index %d: %s\n", i, unparsedStates[i]);
         #endif
         struct State state = machine.states[i];
@@ -171,18 +170,5 @@ void runTape(int l, const char** unparsedStates){
     int sum = sumTape(&machine.cell);
 
     printf("steps: %d\n", i);
-    printf("tape sum: %d\n", sum);
+    printf("tape sum: %d\n\n", sum);
 }
-
-/*int main(){
-    const char* unparsedStates[]={
-        "A 0 1 1 B",
-        "A 1 1 -1 C",
-        "B 0 1 -1 A",
-        "B 1 1 1 B",
-        "C 0 1 -1 B",
-        "C 1 1 1 H",
-    };
-
-    runTape(unparsedStates);
-}*/
