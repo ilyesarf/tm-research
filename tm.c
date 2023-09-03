@@ -1,6 +1,7 @@
 #include "tm.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 //#define DEBUG 1
 
@@ -134,6 +135,7 @@ void printTape(int i, struct Cell* headCell) {
 }
 
 void runTape(int l, const char** unparsedStates){
+    clock_t st = clock(); 
     struct Machine machine;
 
     int alphabetArr[m] = ALPHABET;
@@ -168,7 +170,9 @@ void runTape(int l, const char** unparsedStates){
     }
 
     int sum = sumTape(&machine.cell);
+    clock_t et = clock();
 
     printf("steps: %d\n", i);
-    printf("tape sum: %d\n\n", sum);
+    printf("tape sum: %d\n", sum);
+    printf("execution time: %fs\n", (double)(et-st)/CLOCKS_PER_SEC);
 }
