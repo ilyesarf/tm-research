@@ -1,0 +1,104 @@
+desc: (none)
+cmd: bb/3x2
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=180597
+mem_heap_B=24
+mem_heap_extra_B=16
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=180769
+mem_heap_B=48
+mem_heap_extra_B=32
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=181272
+mem_heap_B=1072
+mem_heap_extra_B=40
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=186678
+mem_heap_B=1096
+mem_heap_extra_B=56
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=190114
+mem_heap_B=1120
+mem_heap_extra_B=72
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=194145
+mem_heap_B=1144
+mem_heap_extra_B=88
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=217258
+mem_heap_B=1168
+mem_heap_extra_B=104
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=242774
+mem_heap_B=1168
+mem_heap_extra_B=104
+mem_stacks_B=0
+heap_tree=peak
+n2: 1168 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1024 0x48E9C23: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 1024 0x48F8D5F: _IO_doallocbuf (genops.c:347)
+   n1: 1024 0x48F7FDF: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 1024 0x48F6754: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 1024 0x48F6754: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 1024 0x48E01CC: outstring_func (vfprintf-internal.c:239)
+       n1: 1024 0x48E01CC: __vfprintf_internal (vfprintf-internal.c:1263)
+        n1: 1024 0x48CB81E: printf (printf.c:33)
+         n1: 1024 0x1095E3: printTape (tm.c:128)
+          n1: 1024 0x10981E: runTape (tm.c:166)
+           n0: 1024 0x10991E: main (3x2.c:17)
+ n3: 144 0x109201: createCell (tm.c:13)
+  n1: 72 0x10945E: evalState (tm.c:72)
+   n1: 72 0x10980A: runTape (tm.c:165)
+    n0: 72 0x10991E: main (3x2.c:17)
+  n1: 48 0x1094A5: evalState (tm.c:81)
+   n1: 48 0x10980A: runTape (tm.c:165)
+    n0: 48 0x10991E: main (3x2.c:17)
+  n1: 24 0x109773: runTape (tm.c:157)
+   n0: 24 0x10991E: main (3x2.c:17)
+#-----------
+snapshot=9
+#-----------
+time=242774
+mem_heap_B=144
+mem_heap_extra_B=96
+mem_stacks_B=0
+heap_tree=empty
