@@ -174,5 +174,6 @@ void runTape(int l, const char** unparsedStates){
 
     printf("steps: %d\n", i);
     printf("tape sum: %d\n", sum);
-    printf("execution time: %fs\n", (double)(et-st)/CLOCKS_PER_SEC);
+
+    printf("--------------------------\nexecution time: %fs\n--------------------------\n\n", (double)(et-st)/CLOCKS_PER_SEC);
 }
