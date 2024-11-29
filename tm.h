@@ -46,4 +46,4 @@ extern int sumTape(struct Cell** headCell);
 
 extern void printTape(int i, struct Cell* headCell);
 
-extern void runTape(int l, const char** unparsedStates);
+extern void runTape(int l, char** unparsedStates);

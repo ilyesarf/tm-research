@@ -134,7 +134,7 @@ void printTape(int i, struct Cell* headCell) {
     printf("NULL\n\n");
 }
 
-void runTape(int l, const char** unparsedStates){
+void runTape(int l, char** unparsedStates){
     clock_t st = clock(); 
     struct Machine machine;
 
